@@ -19,8 +19,14 @@ void display()
     glEnable(GL_DEPTH_TEST);
     glBegin(GL_POINTS);
 
-    glVertex3f(0.5,0.5,0.5);
-    /* Put drawing code here */
+    glVertex3f(-0.5,-0.5,-0.5);
+    glVertex3f(0.5,-0.5,-0.5);
+    glVertex3f(0.5,0.5,-0.5);
+    glVertex3f(-0.5,0.5,-0.5);
+    
+    printf("display\n");
+    printf(glGetError()+"\n");
+    printf(gluErrorString(glGetError()));
 
     glEnd();
     glutSwapBuffers();
