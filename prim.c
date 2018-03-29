@@ -17,9 +17,12 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+    glBegin(GL_POINTS);
 
+    glVertex3f(0.5,0.5,0.5);
     /* Put drawing code here */
 
+    glEnd();
     glutSwapBuffers();
 }
 
