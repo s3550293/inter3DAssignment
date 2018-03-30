@@ -50,10 +50,12 @@ void drawLine(float x){
     const int c = 10;
     const float m = 1;
     float y;
-    // glPointSize(2.0);
+    glPointSize(2.0);
+    glColor3f(0,0,0);
     glBegin(GL_POINTS);
     for (int i = 0; i<= c; i++){
         y = (x * m + i);
+        x = x*m;
         glVertex3f(x, y, 0);
     }
     glEnd();
