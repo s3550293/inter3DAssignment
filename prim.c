@@ -45,7 +45,7 @@ void drawLine(){
         glVertex3f(x, y,0);
         glVertex3f(x, -y,0);
     }
-    glend();
+    glEnd();
 }
 
 void xyz(){
