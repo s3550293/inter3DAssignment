@@ -20,16 +20,17 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     glBegin(GL_LINE_LOOP);
-    glColorRL(1,0,0);
-    /* glVertex3f(-0.5,-0.5,-0.5);*/
-    glVertexRL(0,0,0);
+    /* glColor3f(red,green,blue);*/
+    glColor3f(1,0,0);
+    /* glVertex3f(x,y,z);*/
+    glVertex3f(0,0,0);
     glVertexRL(0,0.5,0);
     glEnd();
 
     glBegin(GL_LINE_LOOP);
-    glColorGL(0,1,0);
-    glVertexGL(-0.5,-0.5,-0.5);
-    glVertexGL(0.5,-0.5,-0.5);
+    glColor3f(0,1,0);
+    glVertex3f(-0.5,-0.5,-0.5);
+    glVertex3f(0.5,-0.5,-0.5);
     glEnd();
 
     printf("display\n");
@@ -37,7 +38,7 @@ void display()
     printf("%s",gluErrorString(glGetError()));
     printf("display\n");
     printf("%d\n",glGetError());
-    printf("%s",gluErrorString(glGetError()));
+    printf("%s\n",gluErrorString(glGetError()));
     glutSwapBuffers();
 }
 
