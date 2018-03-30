@@ -41,7 +41,7 @@ void drawLine(){
     glBegin(GL_POINTS);
     for (int i = 0; i <= n; i++) {
         x = (i / (float)n - 0.5) * 2.0 * r;
-        y = sqrtf(r * r - x * x);
+        y = sqrt(r * r - x * x);
         glVertex3f(x, y,0);
         glVertex3f(x, -y,0);
     }
