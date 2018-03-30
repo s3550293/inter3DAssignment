@@ -21,7 +21,7 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     xyz();
-    drawLine()
+    drawLine();
     
 
     printf("display\n");
@@ -42,8 +42,9 @@ void drawLine(){
     for (int i = 0; i <= n; i++) {
         x = (i / (float)n - 0.5) * 2.0 * r;
         y = sqrtf(r * r - x * x);
-        glVertex3f(x, y);
-        glVertex3f(x, -y);
+        glVertex3f(x, y,0);
+        glVertex3f(x, -y,0);
+    }
     glend();
 }
 
