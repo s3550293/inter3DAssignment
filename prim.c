@@ -33,17 +33,16 @@ void display()
 }
 
 void drawLine(){
-    const int n = 4;
-    const float r = 1.0;
-    float x,y;
+    float theta;
+    float x, y;
 
-    glPointSize(2.0);
-    glBegin(GL_POINTS);
+    glLineWidth(2.0);
+    glBegin(GL_LINE_LOOP);
     for (int i = 0; i <= n; i++) {
-        x = (i / (float)n - 0.5) * 2.0 * r;
-        y = sqrt(r * r - x * x);
-        glVertex3f(x, y,0);
-        glVertex3f(x, -y,0);
+        theta = i / (float)n * 2.0 * M_PI;
+        x = r * cosf(theta);
+        y = r * sinf(theta);
+        glVertex2f(x, y);
     }
     glEnd();
 }
