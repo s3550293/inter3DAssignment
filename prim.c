@@ -69,7 +69,8 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutCreateWindow("Tutorial 1");
+    glutInitWindowSize(400,600);
+    glutCreateWindow("Assignment 1 Island Battle!");
 
     init();
 
