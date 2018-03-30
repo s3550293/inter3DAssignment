@@ -18,20 +18,9 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-
-    glBegin(GL_LINE_LOOP);
-    /* glColor3f(red,green,blue);*/
-    glColor3f(1,0,0);
-    /* glVertex3f(x,y,z);*/
-    glVertex3f(0,0,0);
-    glVertex3f(0,1,0);
-    glEnd();
-
-    glBegin(GL_LINE_LOOP);
-    glColor3f(0,1,0);
-    glVertex3f(0,0,0);
-    glVertex3f(1,0,0);
-    glEnd();
+    xyz();
+    drawLine()
+    
 
     printf("display\n");
     printf("%d\n",glGetError());
@@ -39,6 +28,43 @@ void display()
 
 
     glutSwapBuffers();
+}
+
+void drawLine(){
+    const int n = 4;
+    const float r = 1.0;
+    float x,y;
+
+    glPointSize(2.0);
+    glBegin(GL_POINTS);
+    for (int i = 0; i <= n; i++) {
+        x = (i / (float)n - 0.5) * 2.0 * r;
+        y = sqrtf(r * r - x * x);
+        glVertex3f(x, y);
+        glVertex3f(x, -y);
+    glend();
+}
+
+void xyz(){
+    glBegin(GL_LINES);
+    /* glColor3f(red,green,blue);*/
+    glColor3f(1,0,0);
+    /* glVertex3f(x,y,z);*/
+    glVertex3f(0,0,0);
+    glVertex3f(0,1,0);
+    glEnd();
+
+    glBegin(GL_LINES);
+    glColor3f(0,1,0);
+    glVertex3f(0,0,0);
+    glVertex3f(1,0,0);
+    glEnd();
+
+    glBegin(GL_LINES);
+    glColor3f(0,0,1);
+    glVertex3f(0,0,0);
+    glVertex3f(0,0,1);
+    glEnd();
 }
 
 /* You can ignore this for now, it just lets you exit when you press 'q' or ESC */
@@ -69,7 +95,7 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(400,600);
+    glutInitWindowSize(600,600);
     glutCreateWindow("Assignment 1 Island Battle!");
 
     init();
