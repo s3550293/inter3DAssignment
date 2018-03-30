@@ -1,7 +1,7 @@
 #ifndef prim_h
 
 
-void drawLine();
+void drawLine(float x);
 void xyz();
 
 void drawIsland();

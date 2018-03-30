@@ -53,7 +53,7 @@ void drawLine(float x){
     // glPointSize(2.0);
     glBegin(GL_POINTS);
     for (int i = 0; i<= c; i++){
-        y = (x * m + i)
+        y = (x * m + i);
         glVertex3f(x, y);
     }
 }
