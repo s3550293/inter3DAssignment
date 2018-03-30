@@ -32,7 +32,7 @@ void display()
     glutSwapBuffers();
 }
 
-void drawLine(float x){
+void drawLine(){
     const int n = 20;
     const float r = 1.0;
     float theta;
