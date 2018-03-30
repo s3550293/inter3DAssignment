@@ -33,11 +33,14 @@ void display()
 }
 
 void drawLine(){
+    const int n = 4;
+    const float r = 1.0;
     float theta;
     float x, y;
 
     glLineWidth(2.0);
     glBegin(GL_LINE_LOOP);
+    glColor3f(0,0,0);
     for (int i = 0; i <= n; i++) {
         theta = i / (float)n * 2.0 * M_PI;
         x = r * cosf(theta);
