@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
+#include <prim.h>
 
 #if _WIN32
 #   include <Windows.h>
