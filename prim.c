@@ -20,13 +20,13 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     glBegin(GL_LINE_LOOP);
-    glColors3f(1,0,0);
+    glColor3f(1,0,0);
     glVertex3f(-0.5,-0.5,-0.5);
     glVertex3f(0.5,-0.5,-0.5);
     glEnd();
 
     glBegin(GL_LINE_LOOP);
-    glColors3f(0,1,0);
+    glColor3f(0,1,0);
     glVertex3f(-0.5,-0.5,-0.5);
     glVertex3f(0.5,-0.5,-0.5);
     glEnd();
