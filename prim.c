@@ -32,22 +32,30 @@ void display()
     glutSwapBuffers();
 }
 
-void drawLine(){
-    const int n = 4;
-    const float r = 1.0;
-    float theta;
-    float x, y;
+void drawLine(float x){
+    // const int n = 4;
+    // const float r = 1.0;
+    // float x, y;
 
-    glLineWidth(2.0);
-    glBegin(GL_LINE_LOOP);
-    glColor3f(0,0,0);
-    for (int i = 0; i <= n; i++) {
-        theta = i / (float)n * 2.0 * M_PI;
-        x = r * cosf(theta);
-        y = r * sinf(theta);
-        glVertex2f(x, y);
+    // glPointSize(2.0);
+    // glBegin(GL_POINTS);
+    // for (int i = 0; i <= n; i++) {
+    //     x = (i / (float)n - 0.5) * 2.0 * r;
+    //     y = sqrtf(r * r - x * x);
+    //     glVertex3f(x, y);
+    //     glVertex3f(x, -y);
+    // }
+    // glEnd();
+
+    const int c = 10;
+    const float m = 1;
+    float y;
+    // glPointSize(2.0);
+    glBegin(GL_POINTS);
+    for (int i = 0; i<= c; i++){
+        y = (x * m + i)
+        glVertex3f(x, y);
     }
-    glEnd();
 }
 
 void xyz(){
@@ -70,6 +78,10 @@ void xyz(){
     glVertex3f(0,0,0);
     glVertex3f(0,0,1);
     glEnd();
+}
+
+void drawIsland(){
+    //TODO
 }
 
 /* You can ignore this for now, it just lets you exit when you press 'q' or ESC */

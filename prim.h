@@ -4,4 +4,6 @@
 void drawLine();
 void xyz();
 
+void drawIsland();
+
 #endif
