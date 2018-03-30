@@ -26,8 +26,8 @@ void display()
     glVertex3f(-0.5,0.5,-0.5);
     
     printf("display\n");
-    printf"%d\n",(glGetError());
-    printf("%s"gluErrorString(glGetError()));
+    printf("%d\n",(glGetError());
+    printf("%s",gluErrorString(glGetError()));
 
     glEnd();
     glutSwapBuffers();
