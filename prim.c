@@ -20,15 +20,16 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     glBegin(GL_LINE_LOOP);
-    glColor3f(1,0,0);
-    glVertex3f(-0.5,-0.5,-0.5);
-    glVertex3f(0.5,-0.5,-0.5);
+    glColorRL(1,0,0);
+    /* glVertex3f(-0.5,-0.5,-0.5);*/
+    glVertexRL(0,0,0);
+    glVertexRL(0,0.5,0);
     glEnd();
 
     glBegin(GL_LINE_LOOP);
-    glColor3f(0,1,0);
-    glVertex3f(-0.5,-0.5,-0.5);
-    glVertex3f(0.5,-0.5,-0.5);
+    glColorGL(0,1,0);
+    glVertexGL(-0.5,-0.5,-0.5);
+    glVertexGL(0.5,-0.5,-0.5);
     glEnd();
 
     printf("display\n");
