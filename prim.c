@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #if _WIN32
 #   include <Windows.h>
@@ -17,7 +18,7 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    glBegin(GL_POINTS);
+    glBegin(GL_LINE);
 
     glVertex3f(-0.5,-0.5,-0.5);
     glVertex3f(0.5,-0.5,-0.5);
