@@ -24,21 +24,20 @@ void display()
     glColor3f(1,0,0);
     /* glVertex3f(x,y,z);*/
     glVertex3f(0,0,0);
-    glVertex3f(0,0.5,0);
+    glVertex3f(0,1,0);
     glEnd();
 
     glBegin(GL_LINE_LOOP);
     glColor3f(0,1,0);
-    glVertex3f(-0.5,-0.5,-0.5);
-    glVertex3f(0.5,-0.5,-0.5);
+    glVertex3f(0,0,0);
+    glVertex3f(1,0,0);
     glEnd();
 
     printf("display\n");
     printf("%d\n",glGetError());
-    printf("%s",gluErrorString(glGetError()));
-    printf("display\n");
-    printf("%d\n",glGetError());
     printf("%s\n",gluErrorString(glGetError()));
+
+
     glutSwapBuffers();
 }
 
