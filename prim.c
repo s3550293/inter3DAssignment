@@ -21,11 +21,11 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     xyz();
-    drawLine(0.5);
+    // drawLine();
+    drawSinWave();
     
 
     printf("display\n");
-    printf("%d\n",glGetError());
     printf("%s\n",gluErrorString(glGetError()));
 
 
@@ -33,19 +33,109 @@ void display()
 }
 
 void drawLine(){
-    const int n = 20;
-    const float r = 1.0;
-    float theta;
-    float x, y;
-
-    glLineWidth(2.0);
-    glBegin(GL_LINE_LOOP);
-    for (int i = 0; i <= n; i++) {
-        theta = i / (float)n * 2.0 * M_PI;
-        x = r * cosf(theta);
-        y = r * sinf(theta);
-        glVertex2f(x, y);
+    // float segments = 10;
+    // float left = -1.0;
+    // float right = 1.0;
+    // float range = right - left;
+    // float stepsize = range/segments;
+    // printf("%f\n",stepsize);
+    // float x,y;
+    // glBegin(GL_LINE_STRIP);
+    // for (int i = 0; i <= segments; i++){
+    //     x = i * stepsize + left;
+    //     y = (2 * pow(x,2)) - 1;
+    //     printf("%f,%f\n",x,y);
+    //     glVertex3f(x,y,0);
+    // }
+    // glEnd();
+    float x,y;
+    glBegin(GL_LINE_STRIP);
+    for (x = -1.f; x <= 1.f; x += 0.01){
+        y = SIN(1,2,x);
+        glVertex3f(x,y,0);
     }
+    glEnd();
+}
+
+void drawSinWave(){
+    // float x,y;
+    // float waveLength = 2;
+    // float k = 2 * M_PI / waveLength;
+    // float a = 1;
+    // float left = -1.0;
+    // float right = 1.0;
+    // int segments = 20;
+    // float range = right - left;
+    // float stepsize = range/segments;
+    // float curveX[segments];
+    // float curveY[segments];
+    
+    // glBegin(GL_LINE_STRIP);
+    // for (int i = 0; i <= segments; i++){
+    //     x = i * stepsize + left;
+    //     y = a * sin(k * x);
+    //     curveX[i] = x;
+    //     curveY[i] = y;
+    //     glVertex3f(x,y,0);
+    // }
+    // glEnd();
+
+    float x,y;
+    glBegin(GL_LINE_STRIP);
+    for (x = -1.f; x <= 1.f; x += 0.01){
+        y = SIN(1,2,x);
+        glVertex3f(x,y,0);
+    }
+    glEnd();
+
+    // glBegin(GL_LINE_STRIP);
+    // for (int i = 0; i <= segments; i++){
+    //     glVertex3f(curveX[i],curveY[i],0);
+    // }
+    // glEnd();
+    
+    glColor3f(1,1,1);
+    for (x = -1.f; x <= 1.f; x += 0.01){
+        drawTagent(x);
+    }
+
+    glColor3f(1,.5,1);
+    for (x = -1.f; x <= 1.f; x += 0.01){
+        drawNormal(x);
+    }
+    
+    // for (int i = 0; i <= segments; i++){
+    //     drawVector(curveX[i],curveY[i],a,k);
+    // }
+    
+    
+}
+
+void drawTagent(float x){
+    float y;
+    float dx = 1;
+    float dy = COSDY(1,2,x);
+    float t = sqrtf(dx * dx + dy * dy);
+    dx /= t;
+    dy /= t;
+    glBegin(GL_LINES);
+    y = SIN(1,2,x);
+    glVertex3f(x, y, 0);
+    glVertex3f(x + dx, y + dy, 0);
+    glEnd();
+}
+
+void drawNormal(float x){
+    float y;
+    float dx = 1;
+    float dy = COSDY(1,2,x);
+    float t = sqrtf(dx * dx + dy * dy);
+    dx /= t;
+    dy /= t;
+    glBegin(GL_LINES);
+    y = SIN(1,2,x);
+    glVertex3f(x, y, 0);
+    glVertex3f(x + dy, y - dx, 0);
     glEnd();
 }
 
