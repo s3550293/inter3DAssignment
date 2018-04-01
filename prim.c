@@ -129,7 +129,7 @@ void drawNormal(float x){
     float y;
     float dx = 1;
     float dy = COSDY(1,2,x);
-    float t = sqrtf(dx * dx + dy * dy);
+    float t = sqrtf(pow(x,2)+pow(y,2));
     dx /= t;
     dy /= t;
     glBegin(GL_LINES);
