@@ -129,9 +129,9 @@ void drawNormal(float x){
     float y;
     float dx = 1;
     float dy = COSDY(1,2,x);
-    float t = sqrtf(pow(x,2)+pow(y,2));
-    dx /= t;
-    dy /= t;
+    float t = sqrtf(dx * dx + dy * dy);
+    x /= t;
+    y /= t;
     glBegin(GL_LINES);
     y = SIN(1,2,x);
     glVertex3f(x, y, 0);
