@@ -1,92 +1,20 @@
 #include "prim.h"
 
 
-void display()
+void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     xyz();
-    drawSinWave(SHOW_T,SHOW_N);
-    displayHUD();
-
-    printf("display\n");
+    drawSinWave(SHOW_T,SHOW_N,WATERSEG);
+    if (global.OSD)
+        displayHUD();
+    global.frames++;
+    printf("\ndisplay\n");
     printf("%s\n",gluErrorString(glGetError()));
 
 
     glutSwapBuffers();
-}
-
-void updateWave(float dt){
-    water.x = water.x * dt;
-     water.y = water.y * dt;
-}
-
-void drawSinWave(bool drawT, bool drawN){
-    // float x,y;
-    // float waveLength = .5;
-    // float k = 2 * M_PI / waveLength;
-    // float a = .15;
-    float left = -1.0;
-    float right = 1.0;
-    // int segments = 50;
-    float range = right - left;
-    // float stepsize = range/segments;
-    float stepsize = range/water.segments;
-    glColor3f(1,1,1);
-    glBegin(GL_LINE_STRIP);
-    for (int i = 0; i <= water.segments; i++){
-        water.x = i * stepsize + left;
-        water.y = water.a * sin(water.k * water.x);
-        glVertex3f(water.x,water.y,0);
-    }
-    glEnd();
-
-    if(drawT == true){
-        glColor3f(1,0,1);
-        for (int i = 0; i <=  water.segments; i++){
-            water.x = i * stepsize + left;
-            drawTagent(water.x,water.a,water.k);
-        }
-    }
-    
-    if(drawN == true){
-        glColor3f(1,1,0);
-        for (int i = 0; i <= water.segments; i++){
-            water.x = i * stepsize + left;
-            drawNormal(water.x,water.a,water.k);
-        }
-    }
-    
-}
-
-void drawTagent(float x, float a, float k){
-    float y;
-    float dx = 1;
-    float dy = a * k * cos(k*x);
-    float t = sqrtf(dx * dx + dy * dy);
-    t /= 0.15;
-    dx /= t;
-    dy /= t;
-    y = a * sin(k * x);
-    glBegin(GL_LINES);
-    glVertex3f(x, y, 0);
-    glVertex3f(x + dx, y + dy, 0);
-    glEnd();
-}
-
-void drawNormal(float x, float a, float k){
-    float y;
-    float dx = 1;
-    float dy = a * k * cos(k*x);
-    float t = sqrtf(dx * dx + dy * dy);
-    t /= 0.15;
-    dx /= t;
-    dy /= t;
-    y = a * sin(k * x);
-    glBegin(GL_LINES);
-    glVertex3f(x, y, 0);
-    glVertex3f(x + dy, y - dx, 0);
-    glEnd();
 }
 
 void xyz(){
@@ -136,14 +64,29 @@ void keyboard(unsigned char key, int x, int y)
         }else{
             SHOW_T = true;
         }
-        
+        break;
+    case '+':
+    case '=':
+        WATERSEG *= 2;
+        break;
+    case '-':
+        if(WATERSEG != 4){
+            WATERSEG /= 2;
+        }
+        break;
+    case '`':
+        if(WAVEMOTION == true){
+            WAVEMOTION = false;
+        }else{
+            WAVEMOTION = true;
+        }
         break;
     default:
         break;
     }
 }
 
-void idle(){
+void idle(void){
     static float lastT = -1.0;
     float t, dt;
     
@@ -160,20 +103,19 @@ void idle(){
     dt = t - lastT;
     if (global.debug)
         printf("%f %f\n", t, dt);
-    // updateProjectileState(t, dt);
+    updateWave(dt,WAVEMOTION);
     lastT = t;
     
     /* Frame rate */
     dt = t - global.lastFrameRateT;
-    updateWave(dt);
     if (dt > global.frameRateInterval) {
         global.frameRate = global.frames / dt;
         global.lastFrameRateT = t;
         global.frames = 0;
     }
     deltaT = dt;
-    glutPostRedisplay();
     printf("DT: %f",deltaT);
+    glutPostRedisplay();
 }
 
 void displayHUD(){
