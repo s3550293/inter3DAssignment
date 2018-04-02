@@ -1,20 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 #include "prim.h"
 
-#if _WIN32
-#   include <Windows.h>
-#endif
-#if __APPLE__
-#   include <OpenGL/gl.h>
-#   include <OpenGL/glu.h>
-#   include <GLUT/glut.h>
-#else
-#   include <GL/gl.h>
-#   include <GL/glu.h>
-#   include <GL/glut.h>
-#endif
 
 void display()
 {
@@ -22,7 +7,7 @@ void display()
     glEnable(GL_DEPTH_TEST);
     xyz();
     // drawLine();
-    drawSinWave();
+    drawSinWave(SHOW_T,SHOW_N);
     
 
     printf("display\n");
@@ -32,47 +17,23 @@ void display()
     glutSwapBuffers();
 }
 
-void drawLine(){
-    // float segments = 10;
-    // float left = -1.0;
-    // float right = 1.0;
-    // float range = right - left;
-    // float stepsize = range/segments;
-    // printf("%f\n",stepsize);
-    // float x,y;
-    // glBegin(GL_LINE_STRIP);
-    // for (int i = 0; i <= segments; i++){
-    //     x = i * stepsize + left;
-    //     y = (2 * pow(x,2)) - 1;
-    //     printf("%f,%f\n",x,y);
-    //     glVertex3f(x,y,0);
-    // }
-    // glEnd();
+void drawSinWave(bool drawT, bool drawN){
     float x,y;
-    glBegin(GL_LINE_STRIP);
-    for (x = -1.f; x <= 1.f; x += 0.01){
-        y = SIN(1,2,x);
-        glVertex3f(x,y,0);
-    }
-    glEnd();
-}
-
-void drawSinWave(){
-    // float x,y;
-    // float waveLength = 2;
-    // float k = 2 * M_PI / waveLength;
-    // float a = 1;
-    // float left = -1.0;
-    // float right = 1.0;
-    // int segments = 20;
-    // float range = right - left;
-    // float stepsize = range/segments;
+    float waveLength = .5;
+    float k = 2 * M_PI / waveLength;
+    float a = .15;
+    float left = -1.0;
+    float right = 1.0;
+    int segments = 100;
+    float range = right - left;
+    float stepsize = range/segments;
     // float curveX[segments];
     // float curveY[segments];
     
-    // glBegin(GL_LINE_STRIP);
-    // for (int i = 0; i <= segments; i++){
-    //     x = i * stepsize + left;
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i <= segments; i++){
+        x = i * stepsize + left;
+        y = a * sin(k * x);
     //     y = a * sin(k * x);
     //     curveX[i] = x;
     //     curveY[i] = y;
@@ -80,10 +41,10 @@ void drawSinWave(){
     // }
     // glEnd();
 
-    float x,y;
-    glBegin(GL_LINE_STRIP);
-    for (x = -1.f; x <= 1.f; x += 0.01){
-        y = SIN(1,2,x);
+    // float x,y;
+    // glBegin(GL_LINE_STRIP);
+    // for (x = -1.f; x <= 1.f; x += 0.01){
+        // y = SIN(1,2,x);
         glVertex3f(x,y,0);
     }
     glEnd();
@@ -94,14 +55,22 @@ void drawSinWave(){
     // }
     // glEnd();
     
-    glColor3f(1,1,1);
-    for (x = -1.f; x <= 1.f; x += 0.01){
-        drawTagent(x);
+    if(drawT == true){
+        glColor3f(1,0,1);
+        for (int i = 0; i <= segments; i++){
+        // for (x = -1.f; x <= 1.f; x += 0.01){
+            x = i * stepsize + left;
+            drawTagent(x,a,k);
+        }
     }
-
-    glColor3f(1,.5,1);
-    for (x = -1.f; x <= 1.f; x += 0.01){
-        drawNormal(x);
+    
+    if(drawN == true){
+        glColor3f(1,1,0);
+        for (int i = 0; i <= segments; i++){
+        // for (x = -1.f; x <= 1.f; x += 0.01){
+            x = i * stepsize + left;
+            drawNormal(x,a,k);
+        }
     }
     
     // for (int i = 0; i <= segments; i++){
@@ -111,29 +80,34 @@ void drawSinWave(){
     
 }
 
-void drawTagent(float x){
+void drawTagent(float x, float a, float k){
     float y;
     float dx = 1;
-    float dy = COSDY(1,2,x);
+    // float dy = COSDY(1,2,x);
+    float dy = a * k * cos(k*x);
     float t = sqrtf(dx * dx + dy * dy);
+    t /= 0.15;
     dx /= t;
     dy /= t;
+    y = a * sin(k * x);
     glBegin(GL_LINES);
-    y = SIN(1,2,x);
+    // y = SIN(1,2,x);
     glVertex3f(x, y, 0);
     glVertex3f(x + dx, y + dy, 0);
     glEnd();
 }
 
-void drawNormal(float x){
+void drawNormal(float x, float a, float k){
     float y;
     float dx = 1;
-    float dy = COSDY(1,2,x);
+    float dy = a * k * cos(k*x);
+    // float dy = COSDY(1,2,x);
     float t = sqrtf(dx * dx + dy * dy);
-    x /= t;
-    y /= t;
+    t /= 0.15;
+    dx /= t;
+    dy /= t;
+    y = a * sin(k * x);
     glBegin(GL_LINES);
-    y = SIN(1,2,x);
     glVertex3f(x, y, 0);
     glVertex3f(x + dy, y - dx, 0);
     glEnd();
@@ -174,10 +148,30 @@ void keyboard(unsigned char key, int x, int y)
     case 'q':
         exit(EXIT_SUCCESS);
         break;
+    case 'n':
+        if(SHOW_N == true){
+            SHOW_N = false;
+        }else{
+            SHOW_N = true;
+        }
+        break;
+    case 't':
+        if(SHOW_T == true){
+            SHOW_T = false;
+        }else{
+            SHOW_T = true;
+        }
+        
+        break;
     default:
         break;
     }
 }
+
+void idle(){
+    
+}
+
 
 void init()
 {
@@ -192,6 +186,7 @@ void init()
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
+    glutIdleFunc(idle);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(600,600);
     glutCreateWindow("Assignment 1 Island Battle!");
