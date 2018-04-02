@@ -31,10 +31,35 @@ void drawSinWave(bool drawT, bool drawN);
 void drawTagent(float x, float a, float k);
 void drawNormal(float x, float a, float k);
 void drawIsland();
+void displayHUD();
+void updateWave(float dt);
+void idle();
 
 
 bool SHOW_T = true;
-bool SHOW_N = true;
+bool SHOW_N = false;
+
+typedef struct { float x, y; } vec2f;
+
+typedef struct { vec2f r0, v0, r, v; } state;
+state projectile = { 
+    { 0.0, 0.0 },  
+    { 1.0, 2.0 }, 
+    { 0.0, 0.0 }, 
+    { 1.0, 2.0 } 
+};
+
+typedef struct { 
+    float x, y, wl, k, a; 
+    int segments;
+} sinWave ;
+
+sinWave water = {
+    0, 0, 0.5, (2 * M_PI / 0.5), 0.15, 50
+};
+
+
+
 
 
 const float g = -9.8;
@@ -54,6 +79,7 @@ typedef struct {
     float lastFrameRateT;
 } global_t;
 
+float deltaT = 0;
 
 global_t global = { true, false, 0.0, numerical, true, 0, 0.0, 0.2, 0.0 };
 
