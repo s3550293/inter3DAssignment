@@ -5,6 +5,7 @@
         "math.h": "c",
         "boat.h": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "util.h": "c"
     }
 }

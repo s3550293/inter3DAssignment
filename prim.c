@@ -7,6 +7,7 @@ void display(void)
     glEnable(GL_DEPTH_TEST);
     xyz();
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
+    drawBoat(0,0);
     if (global.OSD)
         displayHUD();
     global.frames++;
@@ -17,7 +18,7 @@ void display(void)
     glutSwapBuffers();
 }
 
-void xyz(){
+void xyz(void){
     glBegin(GL_LINES);
     /* glColor3f(red,green,blue);*/
     glColor3f(1,0,0);

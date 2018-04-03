@@ -1,7 +1,11 @@
-#ifndef prim_h
+#ifndef _boat_h_
+#define _boat_h_
 
-void drawBoat(float mid);
+#include "util.h"
+void drawBoat(float x, float y, float xt, float yt);
 
-typedef struct { float x, y, z; } vec3f;
+typedef struct { 
+    float x, y, xt, yt, v, r, g, b; 
+} boatObj ;
 
 #endif

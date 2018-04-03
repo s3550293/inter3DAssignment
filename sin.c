@@ -1,5 +1,9 @@
 #include "sin.h"
 
+sinWave water = {
+    0, 0, 0.5, (2 * M_PI / 0.5), 0.15, 0, 50 
+};
+
 void updateWave(float dt, bool drawMotion){
     if(drawMotion == true){
         water.v += dt;

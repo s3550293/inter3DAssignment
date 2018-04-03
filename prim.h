@@ -1,14 +1,14 @@
-#include "util.h"
-#include "sin.h"
-
 #ifndef _prim_h_
 #define _prim_h_
 
-#define SIN(A, y, x) A * sin(((2 * M_PI) / y) * x);
-#define COSDY(A, y, x) A * ((2 * M_PI) / y) * cos(((2 * M_PI) / y) * x);
+#include "util.h"
+#include "sin.h"
+
+// #define SIN(A, y, x) A * sin(((2 * M_PI) / y) * x);
+// #define COSDY(A, y, x) A * ((2 * M_PI) / y) * cos(((2 * M_PI) / y) * x);
 
 void drawLine();
-void xyz();
+void xyz(void);
 void drawIsland();
 void displayHUD();
 
