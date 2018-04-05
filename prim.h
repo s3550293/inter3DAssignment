@@ -17,7 +17,7 @@ void idle();
 bool SHOW_T = true;
 bool SHOW_N = true;
 bool WAVEMOTION = true;
-float WATERSEG = 50;
+float WATERSEG = 64;
 
 const float g = -9.8;
 const int milli = 1000;

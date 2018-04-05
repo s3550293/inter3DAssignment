@@ -16,12 +16,14 @@ void drawSinWave(bool drawT, bool drawN, float seg){
     float right = 1.0;
     float range = right - left;
     float stepsize = range/water.segments;
-    glColor3f(1,1,1);
-    glBegin(GL_LINE_STRIP);
+
+    glColor4f(0.2,0.6,1.0,0.5);
+    glBegin(GL_QUAD_STRIP);
     for (int i = 0; i <= water.segments; i++){
         water.x = i * stepsize + left;
         water.y = water.a * sin((water.k * water.x) + water.v);
         glVertex3f(water.x,water.y,0);
+        glVertex3f(water.x,left,0);
     }
     glEnd();
 

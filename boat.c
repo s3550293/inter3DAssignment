@@ -4,7 +4,7 @@ boatObj boat = {
     0,0,0,0,0,.5,.5,.5
 };
 
-void drawBoat(float x, float y, float xt, float yt){
+void drawBoatPart(float x, float y){
     boat.x = x;
     boat.y = y - 0.012;
     glColor3f(boat.r,boat.g,boat.b);

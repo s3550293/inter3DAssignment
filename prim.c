@@ -7,7 +7,7 @@ void display(void)
     glEnable(GL_DEPTH_TEST);
     xyz();
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
-    drawBoat(0,0);
+    // drawBoat(0,0);
     if (global.OSD)
         displayHUD();
     global.frames++;
@@ -143,16 +143,22 @@ void displayHUD(){
     glLoadIdentity();
     
     /* Frame rate */
-    glColor3f(1.0, 1.0, 0.0);
-    glRasterPos2i(10, 60);
+    glColor3f(1.0, 1.0, 1.0);
+    glRasterPos2i(w - 150, h - 15);
     snprintf(buffer, sizeof buffer, "fr (f/s): %6.0f", global.frameRate);
     for (bufp = buffer; *bufp; bufp++)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *bufp);
     
     /* Time per frame */
-    glColor3f(1.0, 1.0, 0.0);
-    glRasterPos2i(10, 40);
+    glColor3f(1.0, 1.0, 1.0);
+    glRasterPos2i(w - 150, h - 30);
     snprintf(buffer, sizeof buffer, "ft (ms/f): %5.0f", 1.0 / global.frameRate * 1000.0);
+    for (bufp = buffer; *bufp; bufp++)
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *bufp);
+    
+    glColor3f(1.0, 1.0, 1.0);
+    glRasterPos2i(w - 150, h - 45);
+    snprintf(buffer, sizeof buffer, "tess: %5.0f", WATERSEG);
     for (bufp = buffer; *bufp; bufp++)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *bufp);
     
@@ -177,6 +183,10 @@ void init()
     glMatrixMode(GL_PROJECTION);
     glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable( GL_BLEND );
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 int main(int argc, char **argv)
