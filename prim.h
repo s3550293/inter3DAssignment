@@ -3,6 +3,8 @@
 
 #include "util.h"
 #include "sin.h"
+#include "boat.h"
+#include "island.h"
 
 // #define SIN(A, y, x) A * sin(((2 * M_PI) / y) * x);
 // #define COSDY(A, y, x) A * ((2 * M_PI) / y) * cos(((2 * M_PI) / y) * x);
@@ -14,7 +16,7 @@ void displayHUD();
 
 void idle();
 
-bool SHOW_T = true;
+bool SHOW_T = false;
 bool SHOW_N = true;
 bool WAVEMOTION = true;
 float WATERSEG = 64;

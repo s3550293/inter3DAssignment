@@ -4,10 +4,12 @@
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_DEPTH_TEST);
     xyz();
+    drawBoatPart(-.5,floatObjectY(-.5),floatObjectM(-.5), 1,0,0,true);
+    drawBoatPart(.5,floatObjectY(.5),floatObjectM(.5), 0,0,1,false);
+    drawIsland();
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
-    // drawBoat(0,0);
     if (global.OSD)
         displayHUD();
     global.frames++;
@@ -38,10 +40,6 @@ void xyz(void){
     glVertex3f(0,0,0);
     glVertex3f(0,0,1);
     glEnd();
-}
-
-void drawIsland(){
-    //TODO
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -105,6 +103,7 @@ void idle(void){
     if (global.debug)
         printf("%f %f\n", t, dt);
     updateWave(dt,WAVEMOTION);
+    // updateBoat(WAVEMOTION);
     lastT = t;
     
     /* Frame rate */
@@ -183,10 +182,12 @@ void init()
     glMatrixMode(GL_PROJECTION);
     glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable( GL_BLEND );
+    glEnable(GL_BLEND);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // glDisable(GL_TEXTURE_2D);
 }
 
 int main(int argc, char **argv)

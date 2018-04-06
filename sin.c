@@ -1,7 +1,7 @@
 #include "sin.h"
 
 sinWave water = {
-    0, 0, 0.5, (2 * M_PI / 0.5), 0.15, 0, 50 
+    0, 0, 0.5, (2 * M_PI / 1), 0.25, 0, 50 
 };
 
 void updateWave(float dt, bool drawMotion){
@@ -17,7 +17,7 @@ void drawSinWave(bool drawT, bool drawN, float seg){
     float range = right - left;
     float stepsize = range/water.segments;
 
-    glColor4f(0.2,0.6,1.0,0.5);
+    glColor4f(0.0,0.6,0.6,.7);
     glBegin(GL_QUAD_STRIP);
     for (int i = 0; i <= water.segments; i++){
         water.x = i * stepsize + left;
@@ -58,6 +58,30 @@ void drawTagent(float x, float a, float k){
     glVertex3f(x, y, 0);
     glVertex3f(x + dx, y + dy, 0);
     glEnd();
+}
+
+float floatObjectY(float x){
+    float y = water.a * sin((water.k * x) + water.v);
+    return y;
+}
+
+float floatObjectM(float x){
+    float val = 180.0 / M_PI;
+    float y;
+    float dx = 1;
+    float dy = water.a * water.k * cos((water.k*x) + water.v);
+    float t = sqrtf(dx * dx + dy * dy);
+    t /= 0.15;
+    dy /= t;
+    dx /= t;
+    y = water.a * sin((water.k * x) + water.v);
+    float x2 = x - dy;
+    float y2 = y + dx;
+    float m = atan((x-x2)/(y-y2)) * val;
+//     while(m < 0) {
+//      m -= 180;
+//    }
+    return -m;
 }
 
 void drawNormal(float x, float a, float k){
