@@ -1,4 +1,4 @@
-# inter3DAssignment 1 Ship Battel!
+# Inter3DAssignment 1 Ship Battel!
 
  This assignment will require you to simulate a water surface using sine waves, with two player controlled boats rocking on the water and on opposite sides of an island. The boats have cannon with which they attack the island, which is defended with a cannon and capable of firing back, and has greater 'health'. 
 
@@ -22,13 +22,18 @@
 
 ## Controls
 
+*   Esc - Quits the game
+
 ### Display Controls
 *   +/= - Increases the number of vertices in the SIN wave 2x
 *   '-' - Decreases the number of vertices in the SIN wave 2x
 *   ` - Stops the animation of the SIN wave
+*   Shift + T - Toggles the SIN wave tangents
+*   Shift + N - Toggles the SIN wave normals
+*   Shift + W - Toggles Pollygon Mode
 
 ### Boats
-    The boat are on the same team and their goal is to destroy the island.
+The boat are on the same team and their goal is to destroy the island.
 #### Red Boat
 *   A - Moves left
 *   D - Moves right
@@ -48,4 +53,19 @@
 *   H - Moves right
 *   T - Fires The Cannon
 
+## Authors
 
+* **Joseph Garner** - *Completed Work* - [s3550293](https://github.com/s3550293)
+
+
+## Marking Guide
+
+This is a guide only, and may change.
+
+PA: basic assignment with boats bobbing and rocking on water and and island
+
+CR: two boats with interactive controls ability to fire cannonballs with projectile motion as well as an island with a cannon able to similarly fire a cannon.
+
+DI: projectile path display, collision detection
+
+HD: polished gameplay, multiple missiles, cooldown, rendering, OSD, missle defence 
