@@ -2,7 +2,7 @@
 #define _boat_h_
 
 #include "util.h"
-void drawBoatPart(float x, float y, float m, float r, float g, float b, bool direction);
+void drawBoatPart(float x, float y, float m, float r, float g, float b, float canAngle);
 
 typedef struct { 
     float x, y; 

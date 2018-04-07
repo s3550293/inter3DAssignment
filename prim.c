@@ -6,8 +6,8 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glEnable(GL_DEPTH_TEST);
     xyz();
-    drawBoatPart(-.5,floatObjectY(-.5),floatObjectM(-.5), 1,0,0,true);
-    drawBoatPart(.5,floatObjectY(.5),floatObjectM(.5), 0,0,1,false);
+    drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
+    drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
     drawIsland();
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     if (global.OSD)
@@ -47,17 +47,17 @@ void keyboard(unsigned char key, int x, int y)
     switch (key)
     {
     case 27:
-    case 'q':
+    // case 'Q':
         exit(EXIT_SUCCESS);
         break;
-    case 'n':
+    case 'N':
         if(SHOW_N == true){
             SHOW_N = false;
         }else{
             SHOW_N = true;
         }
         break;
-    case 't':
+    case 'T':
         if(SHOW_T == true){
             SHOW_T = false;
         }else{
@@ -78,6 +78,48 @@ void keyboard(unsigned char key, int x, int y)
             WAVEMOTION = false;
         }else{
             WAVEMOTION = true;
+        }
+        break;
+    case 'a':
+        if(redBoatX > -1){
+            redBoatX -= 0.005;
+        }
+        break;
+    case 'd':
+        if(redBoatX < -0.35){
+            redBoatX+= 0.005;
+        }
+        break;
+    case 'w':
+        if(redCannonAng < 340){
+            redCannonAng += 1;
+        }
+        break;
+    case 's':
+        if(redCannonAng > 305){
+            redCannonAng -= 1;
+        }
+        break;
+
+
+    case 'j':
+        if(blueBoatX > 0.35){
+            blueBoatX -= 0.005;
+        }
+        break;
+    case 'l':
+        if(blueBoatX < 1){
+            blueBoatX += 0.005;
+        }
+        break;
+    case 'i':
+        if(blueCannonAng > 20){
+            blueCannonAng -= 1;
+        }
+        break;
+    case 'k':
+        if(blueCannonAng < 55){
+            blueCannonAng += 1;
         }
         break;
     default:

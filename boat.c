@@ -1,6 +1,6 @@
 #include "boat.h"
 
-void drawBoatPart(float x, float y, float m, float r, float g, float b, bool direction){
+void drawBoatPart(float x, float y, float m, float r, float g, float b, float canAngle){
     // y -= 0.012;
     glPushMatrix();
         printf("\nM:%f\n",m);
@@ -8,7 +8,7 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, bool dir
         glRotatef(m, 0.0, 0.0, 1.0);
         glColor4f(r ,g ,b, 1);
         // Hull
-        // glScalef(.5,.5,0);
+        glScalef(.7,.7,0);
         glBegin(GL_QUADS);
             glVertex3f(-0.05, 0, 0);
             glVertex3f(-0.1, 0.05,0);
@@ -25,8 +25,7 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, bool dir
         
         glPushMatrix();
             // Cannon
-            if(direction){glRotatef(315, 0.0, 0.0, 1.0);}
-            else{glRotatef(45, 0.0, 0.0, 1.0);}
+            glRotatef(canAngle, 0.0, 0.0, 1.0);
             glBegin(GL_QUADS);
                 glVertex3f(-0.01, 0.05,0);
                 glVertex3f(-0.01, 0.11,0);

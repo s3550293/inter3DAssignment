@@ -17,9 +17,15 @@ void displayHUD();
 void idle();
 
 bool SHOW_T = false;
-bool SHOW_N = true;
+bool SHOW_N = false;
 bool WAVEMOTION = true;
 float WATERSEG = 64;
+
+float redBoatX = -0.5;
+float blueBoatX = 0.5;
+
+float redCannonAng = 315;
+float blueCannonAng = 45;
 
 const float g = -9.8;
 const int milli = 1000;
