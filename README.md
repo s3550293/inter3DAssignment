@@ -1,6 +1,6 @@
-# Inter3DAssignment 1 Ship Battel!
+# !!!EARLY ACCESS!!! Ship Battle! THE NEW HOT CRAZE REPLACING FORTNIGHT
 
- This assignment will require you to simulate a water surface using sine waves, with two player controlled boats rocking on the water and on opposite sides of an island. The boats have cannon with which they attack the island, which is defended with a cannon and capable of firing back, and has greater 'health'. 
+ This GAME [assignment] will require you to simulate a water surface using sine waves, with two player controlled boats rocking on the water and on opposite sides of an island. The boats have cannon with which they attack the island, which is defended with a cannon and capable of firing back, and has greater 'health'. 
 
 ### Main Requirements
 
