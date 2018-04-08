@@ -49,8 +49,8 @@ The boat are on the same team and their goal is to destroy the island.
 *   O - Fires The Cannon
 
 ### Island
-*   F - Moves left
-*   H - Moves right
+*   F - Rotates cannon left
+*   H - Rotates cannon right
 *   T - Fires The Cannon
 
 ## Authors

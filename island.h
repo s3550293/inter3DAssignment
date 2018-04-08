@@ -2,5 +2,10 @@
 #define _island_h_
 
 #include "util.h"
-void drawIsland();
+
+typedef struct { 
+    float health; 
+} islandObj ;
+
+void drawIsland(float canAngle);
 #endif

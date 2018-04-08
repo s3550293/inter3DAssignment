@@ -7,7 +7,7 @@ typedef struct {
     int segments;
 } sinWave ;
 
-void updateWave(float dt, bool drawN);
+void updateWave(float dt, bool drawMotion, float speed);
 void drawSinWave(bool drawT, bool drawN, float seg);
 void drawTagent(float x, float a, float k);
 void drawNormal(float x, float a, float k);

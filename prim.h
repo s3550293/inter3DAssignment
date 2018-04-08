@@ -27,6 +27,8 @@ float blueBoatX = 0.5;
 float redCannonAng = 315;
 float blueCannonAng = 45;
 
+float islandCannonAng = 90;
+
 const float g = -9.8;
 const int milli = 1000;
 

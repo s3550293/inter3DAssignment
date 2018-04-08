@@ -4,9 +4,9 @@ sinWave water = {
     0, 0, 0.5, (2 * M_PI / 1), 0.25, 0, 50 
 };
 
-void updateWave(float dt, bool drawMotion){
+void updateWave(float dt, bool drawMotion, float speed){
     if(drawMotion == true){
-        water.v += dt;
+        water.v += (dt * speed);
     }
 }
 
@@ -78,9 +78,6 @@ float floatObjectM(float x){
     float x2 = x - dy;
     float y2 = y + dx;
     float m = atan((x-x2)/(y-y2)) * val;
-//     while(m < 0) {
-//      m -= 180;
-//    }
     return -m;
 }
 

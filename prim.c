@@ -6,10 +6,11 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glEnable(GL_DEPTH_TEST);
     xyz();
-    drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
-    drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
-    drawIsland();
-    drawSinWave(SHOW_T,SHOW_N,WATERSEG);
+    // drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
+    // drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
+    // drawIsland(islandCannonAng);
+    // drawSinWave(SHOW_T,SHOW_N,WATERSEG);
+    drawCB();
     if (global.OSD)
         displayHUD();
     global.frames++;
@@ -23,14 +24,14 @@ void display(void)
 void xyz(void){
     glBegin(GL_LINES);
     /* glColor3f(red,green,blue);*/
-    glColor3f(1,0,0);
+    glColor3f(0,1,0);
     /* glVertex3f(x,y,z);*/
     glVertex3f(0,0,0);
     glVertex3f(0,1,0);
     glEnd();
 
     glBegin(GL_LINES);
-    glColor3f(0,1,0);
+    glColor3f(1,0,0);
     glVertex3f(0,0,0);
     glVertex3f(1,0,0);
     glEnd();
@@ -122,6 +123,16 @@ void keyboard(unsigned char key, int x, int y)
             blueCannonAng += 1;
         }
         break;
+    case 'f':
+        if(islandCannonAng < 160){
+            islandCannonAng += 2;
+        }
+        break;
+    case 'h':
+        if(islandCannonAng > 20){
+            islandCannonAng -= 2;
+        }
+        break;
     default:
         break;
     }
@@ -144,7 +155,7 @@ void idle(void){
     dt = t - lastT;
     if (global.debug)
         printf("%f %f\n", t, dt);
-    updateWave(dt,WAVEMOTION);
+    updateWave(dt,WAVEMOTION, 0.7);
     // updateBoat(WAVEMOTION);
     lastT = t;
     
