@@ -105,7 +105,7 @@ void createCannonBall(bool boat){
         if(arr_balls[i].v == 0){
             float x,y,vx,vy,m;
             if(boat){
-                x = red.x + ;
+                x = red.x;
                 y = red.y;
                 vx = 1 * cos(degreesToRadians(red.m));
                 vy = 2 * sin(degreesToRadians(red.m));
