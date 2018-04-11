@@ -26,152 +26,277 @@
 #   include <GL/glut.h>
 #endif
 
-enum { shoulder, elbow, wrist, left_plate, right_plate, n_joints } Joint;
-float robot_arm[n_joints] = { 0.0, 0.0, 0.0, 0.0, 0.0 };
-float increment[n_joints] = { 1.0, 1.0, 0.0, 0.01, 0.01 };
+/*
+ * projectile-motion.c
+ *
+ * This program shows how to compute projectile motion using both
+ * analytical and numerical integration of the equations of motion.
+ *
+ * $Id: projectile-motion.c,v 1.6 2016/03/15 00:15:26 gl Exp gl $
+ *
+ */
+#include <string.h>
+#include <stdbool.h>
 
-void init(void) 
+typedef struct { float x, y; } vec2f;
+
+typedef struct { vec2f r0, v0, r, v; } state;
+state projectile = { 
+  { 0.0, 0.0 },  
+  { 1.0, 2.0 }, 
+  { 0.0, 0.0 }, 
+  { 1.0, 2.0 } 
+};
+
+const float g = -9.8;
+const int milli = 1000;
+
+typedef enum { analytical, numerical } integrationMode;
+
+typedef struct {
+  bool debug;
+  bool go;
+  float startTime;
+  integrationMode integrateMode;
+  bool OSD;
+  int frames;
+  float frameRate;
+  float frameRateInterval;
+  float lastFrameRateT;
+} global_t;
+
+global_t global = { true, false, 0.0, numerical, true, 0, 0.0, 0.2, 0.0 };
+
+void updateProjectileStateAnalytical(float t)
 {
-  glClearColor (0.0, 0.0, 0.0, 0.0);
+  vec2f r0, v0;
+
+  r0 = projectile.r0;
+  v0 = projectile.v0;
+
+  projectile.r.x = v0.x * t + r0.x;
+  projectile.r.y = 1.0 / 2.0 * g * t * t + v0.y * t + r0.y;
+  /* 
+   * The above statement can alternatively be written as below, saving
+   * a few arithmetic operations, which may or may not be worthwhile
+   * and which can obscure code and introduce hard to find bugs:
+   *
+   * 1) Precalculate 1.0 / 2.0 as 0.5 to save a division
+   * projectileState.r.y = 0.5 * g * t * t + v0.y * t + r0.y;
+   *
+   * 2) Factorise to save a multiplication
+   * projectileState.r.y = t * (0.5 * g * t + v0.y) + r0.y;
+  */
 }
 
-void myWireRect(float l, float h)
+void updateProjectileStateNumerical(float dt)
 {
-  glPushMatrix();
-    glScalef(l, h, 1.0);
-    glBegin(GL_LINE_LOOP);
-    glVertex2f(-0.5, -0.5);
-    glVertex2f(0.5, -0.5);
-    glVertex2f(0.5, 0.5);
-    glVertex2f(-0.5, 0.5);
-    glEnd();
-  glPopMatrix();
+  // Euler integration
+
+  // Position
+  projectile.r.x += projectile.v.x * dt;
+  projectile.r.y += projectile.v.y * dt;
+
+  // Velocity
+  projectile.v.y += g * dt;
 }
 
-void myWireRhombus(float l, float h)
+void updateProjectileState(float t, float dt)
 {
-  glPushMatrix();
-    glScalef(l, h, 1.0);
-    glScalef(1.0/sqrt(2.0), 1.0/sqrt(2.0), 1.0);
-    glRotatef(45.0, 0.0, 0.0, 1.0);
-    myWireRect(1.0, 1.0);
-  glPopMatrix();
+  if (global.debug)
+    printf("global.integrateMode: %d\n", global.integrateMode);
+  if (global.integrateMode == analytical)
+    updateProjectileStateAnalytical(t);
+  else
+    updateProjectileStateNumerical(dt);
 }
 
-void drawArm(void)
-{
-  glPushMatrix();
 
-  // Shoulder
-  glTranslatef(0.0, 0.0, 0.0);
-  glRotatef(robot_arm[shoulder], 0.0, 0.0, 1.0);
-  // Upper arm
-  glTranslatef(0.2, 0.0, 0.0);
-  myWireRhombus(0.4, 0.2);
-  // Elbow
-  glTranslatef(0.2, 0.0, 0.0);
-  glRotatef(robot_arm[elbow], 0.0, 0.0, 1.0);
-  // Lower arm
-  glTranslatef(0.0, -0.2, 0.0);
-  myWireRhombus(0.2, 0.4);
-  // Wrist
-  glTranslatef(0.0, -0.2, 0.0);
-  glRotatef(robot_arm[wrist], 0.0, 0.0, 1.0);
-  // Hand
-  glTranslatef(0.0, -0.025, 0.0);
-  myWireRect(0.2, 0.05);
-  // Gripper
+void displayProjectile(void)
+{
+  glPointSize(5.0);
+  glBegin(GL_POINTS);
+  glVertex2f(projectile.r.x, projectile.r.y);
+  glEnd();
+}
+
+// Idle callback for animation
+void update(void)
+{
+  static float lastT = -1.0;
+  float t, dt;
+
+  if (!global.go) 
+    return;
+
+  t = glutGet(GLUT_ELAPSED_TIME) / (float)milli - global.startTime;
+
+  if (lastT < 0.0) {
+    lastT = t;
+    return;
+  }
+
+  dt = t - lastT;
+  if (global.debug)
+    printf("%f %f\n", t, dt);
+  updateProjectileState(t, dt);
+  lastT = t;
+
+  /* Frame rate */
+  dt = t - global.lastFrameRateT;
+  if (dt > global.frameRateInterval) {
+    global.frameRate = global.frames / dt;
+    global.lastFrameRateT = t;
+    global.frames = 0;
+  }
+
+  glutPostRedisplay();
+}
+
+void displayOSD()
+{
+  char buffer[30];
+  char *bufp;
+  int w, h;
+    
+  glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_LIGHTING);
+
+  glMatrixMode(GL_PROJECTION);
   glPushMatrix();
-  glTranslatef(-0.07+robot_arm[left_plate], -0.1, 0.0);
-  myWireRect(0.05, 0.125);
-  glPopMatrix();
+  glLoadIdentity();
+
+  /* Set up orthographic coordinate system to match the 
+     window, i.e. (0,0)-(w,h) */
+  w = glutGet(GLUT_WINDOW_WIDTH);
+  h = glutGet(GLUT_WINDOW_HEIGHT);
+  glOrtho(0.0, w, 0.0, h, -1.0, 1.0);
+
+  glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
-  glTranslatef(0.075-robot_arm[right_plate], -0.1, 0.0);
-  myWireRect(0.05, 0.125);
-  glPopMatrix();
-  
-  glPopMatrix();
+  glLoadIdentity();
+
+  /* Frame rate */
+  glColor3f(1.0, 1.0, 0.0);
+  glRasterPos2i(10, 60);
+  snprintf(buffer, sizeof buffer, "fr (f/s): %6.0f", global.frameRate);
+  for (bufp = buffer; *bufp; bufp++)
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *bufp);
+
+  /* Time per frame */
+  glColor3f(1.0, 1.0, 0.0);
+  glRasterPos2i(10, 40);
+  snprintf(buffer, sizeof buffer, "ft (ms/f): %5.0f", 1.0 / global.frameRate * 1000.0);
+  for (bufp = buffer; *bufp; bufp++)
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *bufp);
+
+  /* Pop modelview */
+  glPopMatrix();  
+  glMatrixMode(GL_PROJECTION);
+
+  /* Pop projection */
+  glPopMatrix();  
+  glMatrixMode(GL_MODELVIEW);
+
+  /* Pop attributes */
+  glPopAttrib();
 }
 
 void display(void)
 {
-  int err;
+  GLenum err;
 
-  glClear (GL_COLOR_BUFFER_BIT);
-
-  drawArm();  
-  glutSwapBuffers();
-
-  if ((err = glGetError()) != GL_NO_ERROR) {
-    printf("display: %s\n",gluErrorString(err));
-  }
-}
-
-void reshape (int w, int h)
-{
-  glViewport (0, 0, (GLsizei) w, (GLsizei) h); 
-  glMatrixMode (GL_PROJECTION);
-  glLoadIdentity ();
-  glOrtho(-1.0, 1.0, -1.0, 1.0, -1, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  glPushMatrix();
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  glColor3f (0.8, 0.8, 0.8);
+
+  // Display projectile
+  displayProjectile();
+
+  // Display OSD
+  if (global.OSD)
+    displayOSD();
+
+  glPopMatrix();
+
+  glutSwapBuffers();
+
+  global.frames++;
+  
+  // Check for errors
+  while ((err = glGetError()) != GL_NO_ERROR)
+    printf("%s\n",gluErrorString(err));
 }
 
+void myinit (void) 
+{
+}
 
-void keyboard (unsigned char key, int x, int y)
+void keyboardCB(unsigned char key, int x, int y)
 {
   switch (key) {
-  case 'S':
-    robot_arm[shoulder] += increment[shoulder];
-    glutPostRedisplay();
+  case 27:
+  case 'q':
+    exit(EXIT_SUCCESS);
+    break;
+  case 'd':
+    global.debug = !global.debug;
+    break;
+  case 'i':
+    if (global.integrateMode == analytical) 
+      global.integrateMode = numerical;
+    else 
+      global.integrateMode = analytical;
+    break;
+  case 'o':
+    global.OSD = !global.OSD;
     break;
   case 's':
-    robot_arm[shoulder] -= increment[shoulder];
-    glutPostRedisplay();
-    break;
-  case 'E':
-    robot_arm[elbow] += increment[elbow];
-    glutPostRedisplay();
-    break;
-  case 'e':
-    robot_arm[elbow] -= increment[elbow];
-    glutPostRedisplay();
-    break;
-  case 'L':
-    robot_arm[left_plate] += increment[left_plate];
-    glutPostRedisplay();
-    break;
-  case 'l':
-    robot_arm[left_plate] -= increment[left_plate];
-    glutPostRedisplay();
-    break;
-  case 'R':
-    robot_arm[right_plate] += increment[right_plate];
-    glutPostRedisplay();
-    break;
-  case 'r':
-    robot_arm[right_plate] -= increment[right_plate];
-    glutPostRedisplay();
-    break;
-  case 27:
-    exit(0);
+    if (!global.go) {
+      global.startTime = glutGet(GLUT_ELAPSED_TIME) / (float)milli;
+      global.go = true;
+    }
     break;
   default:
     break;
   }
+  glutPostRedisplay();
 }
 
+void myReshape(int w, int h)
+{
+  glViewport(0, 0, w, h);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+}
+
+/*  Main Loop
+ *  Open window with initial window size, title bar, 
+ *  RGBA display mode, and handle input events.
+ */
 int main(int argc, char** argv)
 {
   glutInit(&argc, argv);
-  glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowSize (500, 500); 
-  glutInitWindowPosition (100, 100);
-  glutCreateWindow (argv[0]);
-  init ();
-  glutDisplayFunc(display); 
-  glutReshapeFunc(reshape);
-  glutKeyboardFunc(keyboard);
+  glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+  glutInitWindowSize(400, 400);
+  glutInitWindowPosition(500, 500);
+  glutCreateWindow("Projectile Motion");
+  glutKeyboardFunc(keyboardCB);
+  glutReshapeFunc(myReshape);
+  glutDisplayFunc(display);
+  glutIdleFunc(update);
+
+  myinit();
+
   glutMainLoop();
-  return 0;
 }
+

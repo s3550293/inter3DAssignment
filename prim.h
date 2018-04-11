@@ -29,7 +29,8 @@ float blueCannonAng = 45;
 
 float islandCannonAng = 90;
 
-const float g = -9.8;
+// const float g = -9.8;
+const float g = -1.5;
 const int milli = 1000;
 
 typedef struct {
@@ -45,6 +46,6 @@ typedef struct {
 
 float deltaT = 0;
 
-global_t global = { true, true, 0.0, true, 0, 0.0, 0.2, 0.0 };
+global_t global = { false, true, 0.0, true, 0, 0.0, 0.2, 0.0 };
 
 #endif

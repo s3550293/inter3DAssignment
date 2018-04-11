@@ -6,22 +6,25 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glEnable(GL_DEPTH_TEST);
     xyz();
-    // drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
-    // drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
+    drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
+    drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
     // drawIsland(islandCannonAng);
     // drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     drawCB();
     if (global.OSD)
         displayHUD();
     global.frames++;
-    printf("\ndisplay\n");
-    printf("%s\n",gluErrorString(glGetError()));
+    if(global.debug){
+        printf("\ndisplay\n");
+        printf("%s\n",gluErrorString(glGetError()));
+    }
 
 
     glutSwapBuffers();
 }
 
 void xyz(void){
+
     glBegin(GL_LINES);
     /* glColor3f(red,green,blue);*/
     glColor3f(0,1,0);
@@ -81,6 +84,7 @@ void keyboard(unsigned char key, int x, int y)
             WAVEMOTION = true;
         }
         break;
+
     case 'a':
         if(redBoatX > -1){
             redBoatX -= 0.005;
@@ -100,6 +104,10 @@ void keyboard(unsigned char key, int x, int y)
         if(redCannonAng > 305){
             redCannonAng -= 1;
         }
+        break;
+    case 'e':
+        printf("Letter 'e' Was pressed\n");
+        createCannonBall(true);
         break;
 
 
@@ -122,6 +130,10 @@ void keyboard(unsigned char key, int x, int y)
         if(blueCannonAng < 55){
             blueCannonAng += 1;
         }
+        break;
+    case 'o':
+        printf("Letter 'o' Was pressed\n");
+        createCannonBall(false);
         break;
     case 'f':
         if(islandCannonAng < 160){
@@ -156,6 +168,8 @@ void idle(void){
     if (global.debug)
         printf("%f %f\n", t, dt);
     updateWave(dt,WAVEMOTION, 0.7);
+    updateCannonBall(dt,g);
+    removeCB();
     // updateBoat(WAVEMOTION);
     lastT = t;
     
@@ -167,7 +181,8 @@ void idle(void){
         global.frames = 0;
     }
     deltaT = dt;
-    printf("DT: %f",deltaT);
+    if (global.debug)
+        printf("DT: %f",deltaT);
     glutPostRedisplay();
 }
 
