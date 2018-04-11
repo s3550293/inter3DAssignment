@@ -8,10 +8,10 @@ void display(void)
     xyz();
     drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
     drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
-    // drawIsland(islandCannonAng);
-    // drawSinWave(SHOW_T,SHOW_N,WATERSEG);
+    drawIsland(islandCannonAng);
+    drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     drawCB();
-    drawProab();
+    // drawProab();
     if (global.OSD)
         displayHUD();
     global.frames++;
