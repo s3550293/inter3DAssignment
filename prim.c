@@ -11,6 +11,7 @@ void display(void)
     // drawIsland(islandCannonAng);
     // drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     drawCB();
+    drawProab();
     if (global.OSD)
         displayHUD();
     global.frames++;
@@ -168,7 +169,7 @@ void idle(void){
     if (global.debug)
         printf("%f %f\n", t, dt);
     updateWave(dt,WAVEMOTION, 0.7);
-    updateCannonBall(dt,g);
+    updateCannonBall(dt,g,t);
     removeCB();
     // updateBoat(WAVEMOTION);
     lastT = t;
