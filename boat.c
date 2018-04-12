@@ -107,7 +107,7 @@ void drawProab(){
             float y = 0;
             float x = 0;
             float t = 0;
-            float seg = 100;
+            float seg = 90;
             glColor3f(1,1,1);
             glBegin(GL_LINE_STRIP);
             for(int k=0;k<=seg;k++){
@@ -115,15 +115,17 @@ void drawProab(){
                 // y = -(1.0 / 2.0) * arr_balls[i].g * pow(arr_balls[i].t,2) + arr_balls[i].vy * arr_balls[i].t + arr_balls[i].y;
                 x = arr_balls[i].vx * t + arr_balls[i].x;
                 y = (1.0 / 2.0) * arr_balls[i].g * pow(t,2) + arr_balls[i].vy * t + arr_balls[i].y;
-                t += glutGet(GLUT_ELAPSED_TIME) / (float)milli - 0.0;
-                // x = arr_balls[i].x;
-                // y = arr_balls[i].y;
-                printf("Parab: %f,%f:\n",x,y);
-                printf("Ball: %f,%f:\n",arr_balls[i].x,arr_balls[i].y);
-                glVertex3f(x,y,0);
-                if(y < 0){
+                t += 0.03;
+                float b = floatObjectY(x);
+                printf("Parab Y: %f,\n",b);
+                printf("Parab: %f,%f\n",x,y);
+                if(y < floatObjectY(x)){
                     break;
                 }
+                // x = arr_balls[i].x;
+                // y = arr_balls[i].y;
+                // printf("Ball: %f,%f:\n",arr_balls[i].x,arr_balls[i].y);
+                glVertex3f(x,y,0);
             }
             glEnd();
         }

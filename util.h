@@ -27,24 +27,5 @@
 #define MAX 100
 typedef enum { false, true } bool;
 
-// const float g = -9.8;
-const float g = -1.5;
-const int milli = 1000;
-
-typedef struct {
-    bool debug;
-    bool go;
-    float startTime;
-    bool OSD;
-    int frames;
-    float frameRate;
-    float frameRateInterval;
-    float lastFrameRateT;
-} global_t;
-
-float deltaT = 0;
-
-global_t global = { false, true, 0.0, true, 0, 0.0, 0.2, 0.0 };
-
 
 #endif

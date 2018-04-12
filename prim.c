@@ -10,12 +10,12 @@ void display(void)
     /*
     drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
     drawIsland(islandCannonAng);
-    glDisable(GL_DEPTH_TEST);
-    drawSinWave(SHOW_T,SHOW_N,WATERSEG);
-    glEnable(GL_DEPTH_TEST);
     
     drawICB();
     */
+    glDisable(GL_DEPTH_TEST);
+    drawSinWave(SHOW_T,SHOW_N,WATERSEG);
+    glEnable(GL_DEPTH_TEST);
     drawCB();
     // drawIProab();
     drawProab();
