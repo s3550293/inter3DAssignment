@@ -8,6 +8,14 @@ cannonBall_I arr_I_balls[MAX] = {0,0,0,0,0,0,0,0,false};
 
 void drawIsland(float canAngle){
     island.canAng = canAngle;
+    glColor4f(1 ,1 ,0, 1);
+    glBegin(GL_QUADS);
+        glVertex3f(-0.25, 0.25, 0);
+        glVertex3f(0.25, 0.25, 0);
+        glVertex3f(0.25, -1, 0);
+        glVertex3f(-0.25, -1, 0);
+    glEnd();
+    //Cannon
     glPushMatrix();
         glTranslated(0, 0.25, 0.0);
         glRotatef(canAngle+270, 0.0, 0.0, 1.0);
@@ -32,13 +40,6 @@ void drawIsland(float canAngle){
         }
         glEnd();
     glPopMatrix();
-    glColor4f(1 ,1 ,0, 1);
-    glBegin(GL_QUADS);
-        glVertex3f(-0.25, 0.25, 0);
-        glVertex3f(0.25, 0.25, 0);
-        glVertex3f(0.25, -1, 0);
-        glVertex3f(-0.25, -1, 0);
-    glEnd();
 }
 
 void updateICB(float dt, float g, float t){
@@ -92,7 +93,7 @@ void drawIProab(){
             glBegin(GL_LINE_STRIP);
             for(int i=0;i<=seg;i++){
                 x = 1.0 * arr_I_balls[i].t + 0;
-                y = 1.0 / 2.0 * arr_I_balls[i].g * arr_I_balls[i].t * arr_I_balls[i].t + 2.0 * arr_I_balls[i].t + 0;
+                y = 1.0 / 1.0 * arr_I_balls[i].g * arr_I_balls[i].t * arr_I_balls[i].t + 1.0 * arr_I_balls[i].t + 0;
                 glVertex3f(x,y,0);
             }
             glEnd();
@@ -106,8 +107,8 @@ void createICB(){
             float x,y,vx,vy,m;
             x = 0.22 * cos(degreesToRadians(island.canAng));
             y = 0.22 * sin(degreesToRadians(island.canAng))+ 0.25;
-            vx = 1 * cos(degreesToRadians(island.canAng));
-            vy = 1 * sin(degreesToRadians(island.canAng));
+            vx = 1.5 * cos(degreesToRadians(island.canAng));
+            vy = 1.5 * sin(degreesToRadians(island.canAng));
             m = island.canAng;
             cannonBall_I b = {x,y,vx,vy,m,1,0,0};
             arr_I_balls[i] = b;

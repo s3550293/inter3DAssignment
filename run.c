@@ -40,12 +40,13 @@
 
 typedef struct { float x, y; } vec2f;
 
-typedef struct { vec2f r0, v0, r, v; } state;
+typedef struct { vec2f r0, v0, r, v; float t; } state;
 state projectile = { 
   { 0.0, 0.0 },  
   { 1.0, 2.0 }, 
   { 0.0, 0.0 }, 
-  { 1.0, 2.0 } 
+  { 1.0, 2.0 },
+  0 
 };
 
 const float g = -9.8;
@@ -103,6 +104,7 @@ void updateProjectileStateNumerical(float dt)
 
 void updateProjectileState(float t, float dt)
 {
+  projectile.t = t;
   if (global.debug)
     printf("global.integrateMode: %d\n", global.integrateMode);
   if (global.integrateMode == analytical)
@@ -217,6 +219,24 @@ void display(void)
 
   // Display projectile
   displayProjectile();
+
+  glPointSize(5.0);
+  vec2f r0, v0;
+
+  r0 = projectile.r0;
+  v0 = projectile.v0;
+
+  float y = 0;
+  float x = 0;
+  float seg = 64;
+  glColor3f(1,1,1);
+  glBegin(GL_LINE_STRIP);
+  for(int k=0;k<=seg;k++){
+      x = v0.x * projectile.t + r0.x;
+      y = 1.0 / 2.0 * g * projectile.t * projectile.t + v0.y * projectile.t + r0.y;
+      glVertex3f(x,y,0);
+  }
+  glEnd();
 
   // Display OSD
   if (global.OSD)

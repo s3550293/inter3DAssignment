@@ -28,18 +28,6 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
         glTranslated(x, y-.017, 0.0);
         glRotatef(m, 0.0, 0.0, 1.0);
         glScalef(.7,.7,0);
-        glPushMatrix();
-            // Cannon
-            glTranslatef(0.005,0.005,0);
-            glRotatef(canAngle, 0.0, 0.0, 1.0);
-            glColor4f(0.52 ,0.52 ,0.53, 1);
-            glBegin(GL_QUADS);
-                glVertex3f(-0.01, 0.00,0);
-                glVertex3f(-0.01, 0.11,0);
-                glVertex3f(0.01, 0.11,0);
-                glVertex3f(0.01,  0.00,0);
-            glEnd();
-        glPopMatrix();
         // Hull
         glColor4f(r ,g ,b, 1);
         glBegin(GL_QUADS);
@@ -55,6 +43,18 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
             glVertex3f(0.03, 0.1,0);
             glVertex3f(0.03,  0.05,0);
         glEnd();
+        glPushMatrix();
+            // Cannon
+            glTranslatef(0.005,0.005,0);
+            glRotatef(canAngle, 0.0, 0.0, 1.0);
+            glColor4f(0.52 ,0.52 ,0.53, 1);
+            glBegin(GL_QUADS);
+                glVertex3f(-0.01, 0.00,0);
+                glVertex3f(-0.01, 0.11,0);
+                glVertex3f(0.01, 0.11,0);
+                glVertex3f(0.01,  0.00,0);
+            glEnd();
+        glPopMatrix();
     glPopMatrix();
     
 }
@@ -106,14 +106,24 @@ void drawProab(){
         if(!(arr_balls[i].v == 0)){
             float y = 0;
             float x = 0;
-            float seg = 64;
+            float t = 0;
+            float seg = 100;
             glColor3f(1,1,1);
             glBegin(GL_LINE_STRIP);
-            for(int i=0;i<=seg;i++){
-                // x = arr_balls[i].vx * arr_balls[i].t + 0;
-                x = 1.0 * arr_balls[i].t + 0;
-                y = 1.0 / 2.0 * arr_balls[i].g * arr_balls[i].t * arr_balls[i].t + 2.0 * arr_balls[i].t + 0;
+            for(int k=0;k<=seg;k++){
+                // x = arr_balls[i].vx * arr_balls[i].t + arr_balls[i].x;
+                // y = -(1.0 / 2.0) * arr_balls[i].g * pow(arr_balls[i].t,2) + arr_balls[i].vy * arr_balls[i].t + arr_balls[i].y;
+                x = arr_balls[i].vx * t + arr_balls[i].x;
+                y = (1.0 / 2.0) * arr_balls[i].g * pow(t,2) + arr_balls[i].vy * t + arr_balls[i].y;
+                t += glutGet(GLUT_ELAPSED_TIME) / (float)milli - 0.0;
+                // x = arr_balls[i].x;
+                // y = arr_balls[i].y;
+                printf("Parab: %f,%f:\n",x,y);
+                printf("Ball: %f,%f:\n",arr_balls[i].x,arr_balls[i].y);
                 glVertex3f(x,y,0);
+                if(y < 0){
+                    break;
+                }
             }
             glEnd();
         }
@@ -129,15 +139,15 @@ void createCannonBall(bool boat){
                 // y = red.y;
                 x = 0.11 * cos(degreesToRadians(red.m))+red.x;
                 y = 0.11 * sin(degreesToRadians(red.m))+red.y-.017;
-                vx = 1 * cos(degreesToRadians(red.m));
-                vy = 1 * sin(degreesToRadians(red.m));
+                vx = 1.5 * cos(degreesToRadians(red.m));
+                vy = 1.5 * sin(degreesToRadians(red.m));
                 m = red.m;
             }
             else{
                 x = 0.11 * cos(degreesToRadians(blue.m))+blue.x;
                 y = 0.11 * sin(degreesToRadians(blue.m))+blue.y-.017;
-                vx = 1 * cos(degreesToRadians(blue.m));
-                vy = 1 * sin(degreesToRadians(blue.m));
+                vx = 1.5 * cos(degreesToRadians(blue.m));
+                vy = 1.5 * sin(degreesToRadians(blue.m));
                 m = blue.m;
                 boat = false;
             }

@@ -4,16 +4,21 @@
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     xyz();
     drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
+    /*
     drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
     drawIsland(islandCannonAng);
+    glDisable(GL_DEPTH_TEST);
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
-    drawCB();
+    glEnable(GL_DEPTH_TEST);
+    
     drawICB();
+    */
+    drawCB();
     // drawIProab();
-    // drawProab();
+    drawProab();
     if (global.OSD)
         displayHUD();
     global.frames++;
@@ -262,8 +267,8 @@ void init()
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     // glDisable(GL_TEXTURE_2D);
 }
 
