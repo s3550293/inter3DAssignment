@@ -30,13 +30,14 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
         glScalef(.7,.7,0);
         glPushMatrix();
             // Cannon
+            glTranslatef(0.005,0.005,0);
             glRotatef(canAngle, 0.0, 0.0, 1.0);
             glColor4f(0.52 ,0.52 ,0.53, 1);
             glBegin(GL_QUADS);
-                glVertex3f(-0.01, 0.05,0);
+                glVertex3f(-0.01, 0.00,0);
                 glVertex3f(-0.01, 0.11,0);
                 glVertex3f(0.01, 0.11,0);
-                glVertex3f(0.01,  0.05,0);
+                glVertex3f(0.01,  0.00,0);
             glEnd();
         glPopMatrix();
         // Hull
@@ -61,7 +62,7 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
 void updateCannonBall(float dt, float g, float t){
     dt *= 0.5;
     for( int i = 0; i< MAX; i++){
-        if(!arr_balls[i].v == 0){
+        if(!(arr_balls[i].v == 0)){
             arr_balls[i].x += arr_balls[i].vx * dt;
             arr_balls[i].y += arr_balls[i].vy * dt;
             arr_balls[i].vy += g * dt;
@@ -73,7 +74,7 @@ void updateCannonBall(float dt, float g, float t){
 
 void removeCB(){
     for( int i = 0; i< MAX; i++){
-        if(!arr_balls[i].v == 0){
+        if(!(arr_balls[i].v == 0)){
             if(arr_balls[i].x < -1 || arr_balls[i].x > 1 || arr_balls[i].y < -1){
                 printf("Remove Cannonball\n");
                 arr_balls[i].v = 0;
@@ -85,7 +86,7 @@ void removeCB(){
 void drawCB(){
     int count = 0;
     for( int i = 0; i< MAX; i++){
-        if(!arr_balls[i].v == 0){
+        if(!(arr_balls[i].v == 0)){
                 glPushMatrix();
                     // printf("Cannon Angle %f\n",arr_balls[i].m);
                     glColor3f(1,1,1);
@@ -102,7 +103,7 @@ void drawCB(){
 
 void drawProab(){
     for( int i = 0; i< MAX; i++){
-        if(!arr_balls[i].v == 0){
+        if(!(arr_balls[i].v == 0)){
             float y = 0;
             float x = 0;
             float seg = 64;
@@ -124,17 +125,19 @@ void createCannonBall(bool boat){
         if(arr_balls[i].v == 0){
             float x,y,vx,vy,m;
             if(boat){
-                x = red.x;
-                y = red.y;
+                // x = red.x;
+                // y = red.y;
+                x = 0.11 * cos(degreesToRadians(red.m))+red.x;
+                y = 0.11 * sin(degreesToRadians(red.m))+red.y-.017;
                 vx = 1 * cos(degreesToRadians(red.m));
-                vy = 2 * sin(degreesToRadians(red.m));
+                vy = 1 * sin(degreesToRadians(red.m));
                 m = red.m;
             }
             else{
-                x = blue.x;
-                y = blue.y;
+                x = 0.11 * cos(degreesToRadians(blue.m))+blue.x;
+                y = 0.11 * sin(degreesToRadians(blue.m))+blue.y-.017;
                 vx = 1 * cos(degreesToRadians(blue.m));
-                vy = 2 * sin(degreesToRadians(blue.m));
+                vy = 1 * sin(degreesToRadians(blue.m));
                 m = blue.m;
                 boat = false;
             }

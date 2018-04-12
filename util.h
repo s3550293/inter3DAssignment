@@ -24,7 +24,7 @@
 #   include <GL/glut.h>
 #endif
 
-
+#define MAX 100
 typedef enum { false, true } bool;
 
 

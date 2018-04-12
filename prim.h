@@ -11,7 +11,6 @@
 
 void drawLine();
 void xyz(void);
-void drawIsland();
 void displayHUD();
 
 void idle();

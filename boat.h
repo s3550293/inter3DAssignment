@@ -18,7 +18,4 @@ typedef struct {
     bool boat; 
 } cannonBall;
 
-
-#define MAX 10
-
 #endif

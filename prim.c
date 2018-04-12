@@ -11,6 +11,8 @@ void display(void)
     drawIsland(islandCannonAng);
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     drawCB();
+    drawICB();
+    // drawIProab();
     // drawProab();
     if (global.OSD)
         displayHUD();
@@ -138,13 +140,17 @@ void keyboard(unsigned char key, int x, int y)
         break;
     case 'f':
         if(islandCannonAng < 160){
-            islandCannonAng += 2;
+            islandCannonAng += 1;
         }
         break;
     case 'h':
         if(islandCannonAng > 20){
-            islandCannonAng -= 2;
+            islandCannonAng -= 1;
         }
+        break;
+    case 32:
+        printf("SpaceBar Was pressed\n");
+        createICB();
         break;
     default:
         break;
@@ -170,7 +176,9 @@ void idle(void){
         printf("%f %f\n", t, dt);
     updateWave(dt,WAVEMOTION, 0.7);
     updateCannonBall(dt,g,t);
+    updateICB(dt,g,t);
     removeCB();
+    removeICB();
     // updateBoat(WAVEMOTION);
     lastT = t;
     
@@ -254,8 +262,8 @@ void init()
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     // glDisable(GL_TEXTURE_2D);
 }
 

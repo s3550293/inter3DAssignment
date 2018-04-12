@@ -1,7 +1,7 @@
 #include "sin.h"
 
 sinWave water = {
-    0, 0, 0.5, (2 * M_PI / 1), 0.25, 0, 64 
+    0, 0, 0.5, (2 * M_PI / 1), 0.25, 0, 50 
 };
 
 void updateWave(float dt, bool drawMotion, float speed){
