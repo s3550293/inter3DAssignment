@@ -75,9 +75,11 @@ void updateCannonBall(float dt, float g, float t){
 void removeCB(){
     for( int i = 0; i< MAX; i++){
         if(!(arr_balls[i].v == 0)){
-            if(arr_balls[i].x < -1 || arr_balls[i].x > 1 || arr_balls[i].y < -1){
+             if(arr_balls[i].y < floatObjectY(arr_balls[i].x)){
+            // if(arr_balls[i].x < -1 || arr_balls[i].x > 1 || arr_balls[i].y < -1){
                 printf("Remove Cannonball\n");
-                arr_balls[i].v = 0;
+                    // break;
+                    arr_balls[i].v = 0;
             }
         }
     }
@@ -116,15 +118,9 @@ void drawProab(){
                 x = arr_balls[i].vx * t + arr_balls[i].x;
                 y = (1.0 / 2.0) * arr_balls[i].g * pow(t,2) + arr_balls[i].vy * t + arr_balls[i].y;
                 t += 0.03;
-                float b = floatObjectY(x);
-                printf("Parab Y: %f,\n",b);
-                printf("Parab: %f,%f\n",x,y);
                 if(y < floatObjectY(x)){
                     break;
                 }
-                // x = arr_balls[i].x;
-                // y = arr_balls[i].y;
-                // printf("Ball: %f,%f:\n",arr_balls[i].x,arr_balls[i].y);
                 glVertex3f(x,y,0);
             }
             glEnd();

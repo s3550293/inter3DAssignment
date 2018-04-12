@@ -61,7 +61,7 @@ void drawTagent(float x, float a, float k){
 }
 
 float floatObjectY(float x){
-    printf("a:%f,k:%f,x:%f,v:%f\n",water.a,water.k,x,water.v);
+    // printf("a:%f,k:%f,x:%f,v:%f\n",water.a,water.k,x,water.v);
     float y = water.a * sin((water.k * x) + water.v);
     return y;
 }

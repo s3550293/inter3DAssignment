@@ -2,6 +2,7 @@
 #define _boat_h_
 
 #include "util.h"
+#include "sin.h"
 void drawBoatPart(float x, float y, float m, float r, float g, float b, float canAngle);
 void drawCB();
 void updateCannonBall(float dt, float g, float t);

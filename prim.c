@@ -7,12 +7,10 @@ void display(void)
     glEnable(GL_DEPTH_TEST);
     xyz();
     drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
-    /*
     drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
     drawIsland(islandCannonAng);
     
     drawICB();
-    */
     glDisable(GL_DEPTH_TEST);
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     glEnable(GL_DEPTH_TEST);
