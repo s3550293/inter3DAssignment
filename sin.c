@@ -96,3 +96,7 @@ void drawNormal(float x, float a, float k){
     glVertex3f(x - dy, y + dx, 0);
     glEnd();
 }
+
+struct sinWave CurrentWave(){
+    return water;
+}
