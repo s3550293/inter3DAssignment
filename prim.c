@@ -15,7 +15,7 @@ void display(void)
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     glEnable(GL_DEPTH_TEST);
     drawCB();
-    // drawIProab();
+    drawIProab();
     drawProab();
     if (global.OSD)
         displayHUD();
