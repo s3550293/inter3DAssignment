@@ -1,10 +1,16 @@
 #include "projectile.h"
 
+/*
+    This allows for multiple cannon balls up to the MAX to exist at once
+*/
 cannonBall arr_balls[MAX] = {
     {0,0},{0,0},0,0
 };
 
-void updateCannonBall(float dt, float g){
+/*
+    Updates the position of the cannon ball with dt
+*/
+void updateCannonBall(float dt){
     // dt *= 0.5;
     for( int i = 0; i< MAX; i++){
         if(!(arr_balls[i].a == 0)){
@@ -15,10 +21,15 @@ void updateCannonBall(float dt, float g){
     }
 }
 
+/*
+    This checks if the cannon ball leave the screen or hits the water
+    and removes it if it does
+*/
 void removeCB(){
     for( int i = 0; i< MAX; i++){
         if(!(arr_balls[i].a == 0)){
-            if(arr_balls[i].p.x < -1 || arr_balls[i].p.x > 1 || arr_balls[i].p.y < -1){
+            if(arr_balls[i].p.y < floatObjectY(arr_balls[i].p.x) || arr_balls[i].p.x < -1 || arr_balls[i].p.x > 1){
+            // if(arr_balls[i].p.x < -1 || arr_balls[i].p.x > 1 || arr_balls[i].p.y < -1){
                 printf("Remove Cannonball\n");
                 arr_balls[i].a = 0;
             }
@@ -26,6 +37,9 @@ void removeCB(){
     }
 }
 
+/*
+    Draws all the active cannon balls in the array
+*/
 void drawCB(){
     int count = 0;
     for( int i = 0; i< MAX; i++){
@@ -44,6 +58,10 @@ void drawCB(){
     }
 }
 
+/*
+    Draws the cannon ball trajectory, I had some issues with this one
+    it is a little rought but it achives the goal.
+*/
 void drawProab(){
     for( int i = 0; i< MAX; i++){
         if(!(arr_balls[i].a == 0)){
@@ -58,9 +76,10 @@ void drawProab(){
                 y = (1.0 / 2.0) * G * pow(t,2) + arr_balls[i].v.y * t + arr_balls[i].p.y;
                 t += 0.03;
                 float b = floatObjectY(x);
-                printf("Parab Y: %f,\n",b);
-                printf("Parab: %f,%f\n",x,y);
                 if(y < floatObjectY(x)){
+                    break;
+                }
+                if(y < 0.25 && x > -0.25 && x < 0.25){
                     break;
                 }
                 glVertex3f(x,y,0);
@@ -70,9 +89,12 @@ void drawProab(){
     }
 }
 
+/*
+    Creates a cannon ball and adds it to the array
+*/
 void createCannonBall(float ObjX, float objY, float objM, float objCL){
     for( int i = 0; i< MAX; i++){
-        if(arr_balls[i].v == 0){
+        if(arr_balls[i].a == 0){
             float x,y,vx,vy,m;
             x = objCL * cos(degreesToRadians(objM))+ObjX;
             y = objCL * sin(degreesToRadians(objM))+objY;
@@ -86,3 +108,29 @@ void createCannonBall(float ObjX, float objY, float objM, float objCL){
     }
 }
 
+/*
+    Checks if the cannon ball has collided with an object
+    the collision boxes are round (so not boxes) this may make the island
+    collision a tad weird
+*/
+bool checkCollisionBoat(float x1, float y1, float area){
+    for( int i = 0; i< MAX; i++){
+        if(!(arr_balls[i].a == 0)){
+            float x = (x1 - arr_balls[i].p.x);
+            x *= x;
+            float y = (y1 - arr_balls[i].p.y);
+            y *= y;
+
+            float raid = area + 0.01;
+            raid *= raid;
+
+            float p = x + y;
+            if(p<raid){
+                printf("Collision\n");
+                arr_balls[i].a = 0;
+                return true;
+            }
+        }
+    }
+    return false;
+}

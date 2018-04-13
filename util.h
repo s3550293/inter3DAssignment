@@ -24,7 +24,7 @@
 #   include <GL/glut.h>
 #endif
 
-#define MAX 100
+#define MAX 10
 #define G -1.5
 
 typedef enum { false, true } bool;
@@ -34,16 +34,16 @@ typedef struct {
     int segments;
 } sinWave;
 
+typedef struct { float x, y; } vec2f;
+
 typedef struct { 
     vec2f p,v;
     float m,a;
 } cannonBall;
 
 typedef struct { 
-    float x,y,cl,m,health; 
+    float x,y,cl,m; 
 } boatObj;
-
-typedef struct { float x, y; } vec2f;
 
 
 #endif

@@ -1,13 +1,16 @@
 #include "boat.h"
 
 boatObj red = {
-    0,0,0,0,10
+    0,0,0,0
 };
 
 boatObj blue = {
-    0,0,0,0,10
+    0,0,0,0
 };
 
+/*
+    When called it draws a boat, this method is used to draw both the red and blue baot
+*/
 void drawBoatPart(float x, float y, float m, float r, float g, float b, float canAngle){
     if(r == 1){
         red.x = x;
@@ -27,6 +30,16 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
         glRotatef(m, 0.0, 0.0, 1.0);
         glScalef(.7,.7,0);
         // Hull
+        glColor3f(1,0,0);
+        glBegin(GL_LINE_STRIP);
+            glVertex3f(0, 0.017, 0);
+            glVertex3f(0.12, 0.017,0);
+        glEnd();
+        glColor3f(0,1,0);
+        glBegin(GL_LINE_STRIP);
+            glVertex3f(0,0.017, 0);
+            glVertex3f(0, 0.12+0.017,0);
+        glEnd();
         glColor4f(r ,g ,b, 1);
         glBegin(GL_QUADS);
             glVertex3f(-0.05, 0, 0);
@@ -56,11 +69,37 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
     glPopMatrix();
 }
 
-boatObj fireBall(bool boat){
+/*
+    I'm not too proud of these, I'm a little rough with C
+    there is a much better way of doing this but I didn't
+    have enough time to fix it
+*/
+float boatx(bool boat){
     if(boat){
-        return red;
-
+        return red.x;
     }else{
-        return blue;
+        return blue.x;
     }
 }
+float boaty(bool boat){
+    if(boat){
+        return red.y;
+    }else{
+        return blue.y;
+    }
+}
+float boatm(bool boat){
+    if(boat){
+        return red.m;
+    }else{
+        return blue.m;
+    }
+}
+float boatcl(bool boat){
+    if(boat){
+        return red.cl;
+    }else{
+        return blue.cl;
+    }
+}
+

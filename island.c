@@ -1,11 +1,16 @@
 #include "island.h"
 
+/*
+    This island stuct really just holds the cannon angle.
+    I ended up taking a more basic route with the health
+*/
 islandObj island = {
     100, 0
 };
 
-cannonBall_I arr_I_balls[MAX] = {0,0,0,0,0,0,0,0,false};
-
+/*
+    Draws the static island in the middle of the scrren as well as the cannon
+*/
 void drawIsland(float canAngle){
     island.canAng = canAngle;
     glColor4f(1 ,1 ,0, 1);
@@ -40,4 +45,11 @@ void drawIsland(float canAngle){
         }
         glEnd();
     glPopMatrix();
+}
+
+/*
+    Again same as the boat funtions, there is a better way of doing this
+*/
+float canAng(){
+    return island.canAng;
 }

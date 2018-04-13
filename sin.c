@@ -4,12 +4,18 @@ sinWave water = {
     0, 0, 0.5, (2 * M_PI / 1), 0.25, 0, 64 
 };
 
+/*
+    Updats the wave by changing its velocity
+*/
 void updateWave(float dt, bool drawMotion, float speed){
     if(drawMotion == true){
         water.v += (dt * speed);
     }
 }
 
+/*
+    Draws a sin wave as well as the tangents and the normals
+*/
 void drawSinWave(bool drawT, bool drawN, float seg){
     water.segments = seg;
     float left = -1.0;
@@ -45,6 +51,9 @@ void drawSinWave(bool drawT, bool drawN, float seg){
     
 }
 
+/*
+    Function called to draw the tangent of a singular vertex
+*/
 void drawTagent(float x, float a, float k){
     float y;
     float dx = 1;
@@ -60,6 +69,9 @@ void drawTagent(float x, float a, float k){
     glEnd();
 }
 
+/*
+    Function called to retun the gradient of the normal to a vertex
+*/
 float floatObjectM(float x){
     float val = 180.0 / M_PI;
     float y;
@@ -76,6 +88,10 @@ float floatObjectM(float x){
     return -m;
 }
 
+
+/*
+    Function called to draw the normal of a singular vertex
+*/
 void drawNormal(float x, float a, float k){
     float y;
     float dx = 1;
@@ -91,6 +107,10 @@ void drawNormal(float x, float a, float k){
     glEnd();
 }
 
-// struct sinWave CurrentWave(){
-//     return water;
-// }
+/*
+    Returns the y position to the corresponding
+*/
+float floatObjectY(float x){
+    float y = water.a * sin((water.k * x) + water.v);
+    return y;
+}

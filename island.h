@@ -8,5 +8,6 @@ typedef struct {
 } islandObj;
 
 void drawIsland(float canAngle);
+float canAng();
 
 #endif

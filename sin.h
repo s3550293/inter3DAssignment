@@ -9,5 +9,7 @@ void drawTagent(float x, float a, float k);
 void drawNormal(float x, float a, float k);
 float placeBoat(float x, float a, float k);
 float floatObjectM(float x);
+float floatObjectY(float x);
+
 
 #endif
