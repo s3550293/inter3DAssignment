@@ -25,7 +25,15 @@
 #endif
 
 #define MAX 100
+#define G -1.5
 typedef enum { false, true } bool;
+
+typedef struct { 
+    float x, y, wl, k, a, v; 
+    int segments;
+} sinWave ;
+
+typedef struct { float x, y; } vec2f;
 
 
 #endif
