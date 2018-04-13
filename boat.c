@@ -8,8 +8,6 @@ boatObj blue = {
     0,0,0,0,10
 };
 
-cannonBall arr_balls[MAX] = {0,0,0,0,0,0,0,0,false};
-
 void drawBoatPart(float x, float y, float m, float r, float g, float b, float canAngle){
     if(r == 1){
         red.x = x;
@@ -56,102 +54,13 @@ void drawBoatPart(float x, float y, float m, float r, float g, float b, float ca
             glEnd();
         glPopMatrix();
     glPopMatrix();
-    
 }
 
-void updateCannonBall(float dt, float g, float t){
-    dt *= 0.5;
-    for( int i = 0; i< MAX; i++){
-        if(!(arr_balls[i].v == 0)){
-            arr_balls[i].x += arr_balls[i].vx * dt;
-            arr_balls[i].y += arr_balls[i].vy * dt;
-            arr_balls[i].vy += g * dt;
-            arr_balls[i].g = g;
-            arr_balls[i].t = t;
-        }
-    }
-}
+boatObj fireBall(bool boat){
+    if(boat){
+        return red;
 
-void removeCB(){
-    for( int i = 0; i< MAX; i++){
-        if(!(arr_balls[i].v == 0)){
-             if(arr_balls[i].y < floatObjectY(arr_balls[i].x)){
-            // if(arr_balls[i].x < -1 || arr_balls[i].x > 1 || arr_balls[i].y < -1){
-                printf("Remove Cannonball\n");
-                    // break;
-                    arr_balls[i].v = 0;
-            }
-        }
-    }
-}
-
-void drawCB(){
-    int count = 0;
-    for( int i = 0; i< MAX; i++){
-        if(!(arr_balls[i].v == 0)){
-                glPushMatrix();
-                    // printf("Cannon Angle %f\n",arr_balls[i].m);
-                    glColor3f(1,1,1);
-                    GLUquadric *quad;
-                    quad = gluNewQuadric();
-                    glTranslatef(arr_balls[i].x,arr_balls[i].y,0);
-                    glutWireSphere(0.01,30,30);
-                    glEnd();
-                glPopMatrix();
-            count++;
-        }
-    }
-}
-
-void drawProab(){
-    for( int i = 0; i< MAX; i++){
-        if(!(arr_balls[i].v == 0)){
-            float y = 0;
-            float x = 0;
-            float t = 0;
-            float seg = 90;
-            glColor3f(1,1,1);
-            glBegin(GL_LINE_STRIP);
-            for(int k=0;k<=seg;k++){
-                // x = arr_balls[i].vx * arr_balls[i].t + arr_balls[i].x;
-                // y = -(1.0 / 2.0) * arr_balls[i].g * pow(arr_balls[i].t,2) + arr_balls[i].vy * arr_balls[i].t + arr_balls[i].y;
-                x = arr_balls[i].vx * t + arr_balls[i].x;
-                y = (1.0 / 2.0) * arr_balls[i].g * pow(t,2) + arr_balls[i].vy * t + arr_balls[i].y;
-                t += 0.03;
-                if(y < floatObjectY(x)){
-                    break;
-                }
-                glVertex3f(x,y,0);
-            }
-            glEnd();
-        }
-    }
-}
-
-void createCannonBall(bool boat){
-    for( int i = 0; i< MAX; i++){
-        if(arr_balls[i].v == 0){
-            float x,y,vx,vy,m;
-            if(boat){
-                // x = red.x;
-                // y = red.y;
-                x = 0.11 * cos(degreesToRadians(red.m))+red.x;
-                y = 0.11 * sin(degreesToRadians(red.m))+red.y-.017;
-                vx = 1.5 * cos(degreesToRadians(red.m));
-                vy = 1.5 * sin(degreesToRadians(red.m));
-                m = red.m;
-            }
-            else{
-                x = 0.11 * cos(degreesToRadians(blue.m))+blue.x;
-                y = 0.11 * sin(degreesToRadians(blue.m))+blue.y-.017;
-                vx = 1.5 * cos(degreesToRadians(blue.m));
-                vy = 1.5 * sin(degreesToRadians(blue.m));
-                m = blue.m;
-                boat = false;
-            }
-            cannonBall b = {x,y,vx,vy,m,1,0,0,boat};
-            arr_balls[i] = b;
-            break;
-        }
+    }else{
+        return blue;
     }
 }

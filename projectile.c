@@ -8,10 +8,9 @@ void updateCannonBall(float dt, float g){
     // dt *= 0.5;
     for( int i = 0; i< MAX; i++){
         if(!(arr_balls[i].a == 0)){
-            arr_balls[i].x += arr_balls[i].vx * dt;
-            arr_balls[i].y += arr_balls[i].vy * dt;
-            arr_balls[i].vy += g * dt;
-            arr_balls[i].g = g;
+            arr_balls[i].p.x += arr_balls[i].v.x * dt;
+            arr_balls[i].p.y += arr_balls[i].v.y * dt;
+            arr_balls[i].v.y += G * dt;
         }
     }
 }

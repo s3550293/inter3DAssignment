@@ -26,12 +26,22 @@
 
 #define MAX 100
 #define G -1.5
+
 typedef enum { false, true } bool;
 
 typedef struct { 
     float x, y, wl, k, a, v; 
     int segments;
-} sinWave ;
+} sinWave;
+
+typedef struct { 
+    vec2f p,v;
+    float m,a;
+} cannonBall;
+
+typedef struct { 
+    float x,y,cl,m,health; 
+} boatObj;
 
 typedef struct { float x, y; } vec2f;
 

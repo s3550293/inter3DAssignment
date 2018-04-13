@@ -9,11 +9,10 @@ void display(void)
     drawBoatPart(redBoatX,floatObjectY(redBoatX),floatObjectM(redBoatX), 1,0,0,redCannonAng);
     drawBoatPart(blueBoatX,floatObjectY(blueBoatX),floatObjectM(blueBoatX), 0,0,1,blueCannonAng);
     drawIsland(islandCannonAng);
-    
-    drawICB();
     glDisable(GL_DEPTH_TEST);
     drawSinWave(SHOW_T,SHOW_N,WATERSEG);
     glEnable(GL_DEPTH_TEST);
+    drawICB();
     drawCB();
     drawIProab();
     drawProab();
@@ -113,7 +112,8 @@ void keyboard(unsigned char key, int x, int y)
         break;
     case 'e':
         printf("Letter 'e' Was pressed\n");
-        createCannonBall(true);
+        boatObj rboat = fireball(true);
+        createCannonBall(rboat.x,rboat.y,rboat.m,rboat.cl);
         break;
 
 
@@ -139,7 +139,8 @@ void keyboard(unsigned char key, int x, int y)
         break;
     case 'o':
         printf("Letter 'o' Was pressed\n");
-        createCannonBall(false);
+        boatObj blue = fireball(true);
+        createCannonBall(rboat.x,rboat.y,rboat.m,rboat.cl);
         break;
     case 'f':
         if(islandCannonAng < 160){

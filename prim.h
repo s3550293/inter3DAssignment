@@ -5,6 +5,7 @@
 #include "sin.h"
 #include "boat.h"
 #include "island.h"
+#include "projectile.h"
 
 // #define SIN(A, y, x) A * sin(((2 * M_PI) / y) * x);
 // #define COSDY(A, y, x) A * ((2 * M_PI) / y) * cos(((2 * M_PI) / y) * x);

@@ -60,12 +60,6 @@ void drawTagent(float x, float a, float k){
     glEnd();
 }
 
-float floatObjectY(float x){
-    // printf("a:%f,k:%f,x:%f,v:%f\n",water.a,water.k,x,water.v);
-    float y = water.a * sin((water.k * x) + water.v);
-    return y;
-}
-
 float floatObjectM(float x){
     float val = 180.0 / M_PI;
     float y;
@@ -97,6 +91,6 @@ void drawNormal(float x, float a, float k){
     glEnd();
 }
 
-struct sinWave CurrentWave(){
-    return water;
-}
+// struct sinWave CurrentWave(){
+//     return water;
+// }
